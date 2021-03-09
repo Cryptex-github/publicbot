@@ -6,6 +6,7 @@ import discord
 from discord import Client
 from discord.ext import commands, tasks
 import aiosqlite
+import os
 
 token = "we have a proper bot, don't edit here."
 
@@ -23,6 +24,11 @@ async def _check_prefix(bot,message):
             return prefix
 
 bot = commands.Bot(command_prefix=_check_prefix)
+
+# Loading cog files
+for filename in os.listdir('./cogs'):
+    if filename.endswith('.py'):
+        bot.load_extension(f'cogs.{filename[:-3]}')
 
 @bot.event
 async def on_ready():
