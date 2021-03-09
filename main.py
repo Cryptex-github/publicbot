@@ -6,71 +6,29 @@
 import discord
 from discord import Client
 from discord.ext import commands, tasks
-import aiosqlite
+from datetime import datetime
 
 token = "we have a proper bot, don't edit here."
+bot.launch_time = datetime.utcnow()
 
-# Connection to a sqlite database will be where most the work happens
-async def _check_prefix(bot,message):
-    async with aiosqlite.connect("prefix.db") as db:
-        prefix  = ["mb! ", "Mb! "]
-        cur = await db.cursor()
-        await cur.execute('create table if not exists Streams(guild_id TEXT,prefix TEXT)')
-        await cur.execute("SELECT * FROM Streams WHERE guild_id = ?", (message.guild.id,))
-        result_prefix = await cur.fetchone()
-        if result_prefix:
-            return result_prefix
-        else:
-            return prefix
-
-bot = commands.Bot(command_prefix=_check_prefix)
-
-@bot.event
+@client.event
 async def on_ready():
-    print('we are ready to go. logged in as {0.user}'.format(bot))
+    print(f"Ready")
 
-# If bot mentioned it shows the prefix for that guild    
-@bot.event
-async def on_message(message):
-    if bot.user.mentioned_in(message):
-        async with aiosqlite.connect("prefix.db") as db:
-            cur = await db.cursor()
-            #cur.execute('CREATE TABLE Transactions(Date TEXT, Number TEXT, Type TEXT, From TEXT, To TEXT, Amount REAL)')
-            await cur.execute('create table if not exists Streams(guild_id TEXT,prefix TEXT)')
-            await cur.execute("SELECT prefix FROM Streams WHERE guild_id = ?", (message.guild.id,))
-            result_prefix = await cur.fetchone()
-            if result_prefix is None:
-                result_prefix = 'mb!'
-            else:
-                result_prefix = result_prefix[0]    
-        await message.channel.send(f"My Prefix for this guild is {result_prefix}")
-    else:                 
-        await bot.process_commands(message)       
+@client.command
+async def uptime(ctx):
+    delta_uptime = datetime.utcnow() - bot.launch_time
+    hours, remainder = divmod(int(delta_uptime.total_seconds()), 3600)
+    minutes, seconds = divmod(remainder, 60)
+    days, hours = divmod(hours, 24)
+    await ctx.send(f"{days}d, {hours}h, {minutes}m, {seconds}s")
 
-# Change prefix command could be imporved         
-@bot.command()
-@commands.has_permissions(administrator= True)
-async def prefix(ctx,*,prefix=None):
-    if prefix is None:
-        await ctx.send("WTF ARE YOU DOING LMAO")
-    else:
-        prefix = prefix + " "
-        async with aiosqlite.connect("prefix.db") as db:
-            cur = await db.cursor()
-            await cur.execute('create table if not exists Streams(guild_id TEXT,prefix TEXT)')
-            await db.commit()
-            await cur.execute("update Streams SET prefix = ? where guild_id=?", (prefix, ctx.message.guild.id))
-            await db.commit()
-        await ctx.send(f"I Have changed the prefix of this guild to {prefix} ")
-        async with aiosqlite.connect("prefix.db") as db:
-            cur = await db.cursor()
-            await cur.execute('create table if not exists Streams(guild_id TEXT,prefix TEXT)')
-            await db.commit()
-            await cur.execute("SELECT * FROM Streams WHERE guild_id = ?", (ctx.message.guild.id,))
-            await db.commit()
-            result_prefix = await cur.fetchone()
-            if result_prefix is None:
-                await cur.execute('INSERT into Streams(guild_id, prefix) values(?,?)',(ctx.message.guild.id,prefix))
-                await db.commit()        
-    
+@client.command
+async def ping(ctx):
+    start = time.perf_counter()
+    message = await ctx.send("Ping...")
+    end = time.perf_counter()
+    duration = (end - start)
+    await message.edit(content='Pong! {:.2f}ms.'.format(duration))
+
 client.run(token)
