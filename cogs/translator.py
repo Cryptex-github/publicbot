@@ -34,4 +34,4 @@ class Translator(commands.Cog):
             await ctx.send("Error 404 Brain not found!")
             
 def setup(bot):
-    bot.add_cog(Music(bot))            
+    bot.add_cog(Translator(bot))            
