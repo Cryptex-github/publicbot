@@ -1,5 +1,5 @@
 # Hi, here you can modify this repo with your code!
-# How? Just request to be a collaborator for this code, in our discord server (#opensrc-req), and wait for a mod reply!
+# How? Just request to be a collaborator for this code, in our discord server (#opensrc-req), sending your github profile link, and wait for a mod reply!
 # Discord Server = https://discord.gg/ZcErEwmVYu
 
 import discord
