@@ -5,13 +5,13 @@ from discord.ext import commands
 class Translator(commands.Cog):
     def __init__(self, bot):
         self.bot = bot
-
+        self.translator = Translator()
         
     @commands.command()
     async def translate(self,ctx,lang,*,args):
         try:
-            translator = Translator()
-            a = translator.translate(args, dest=lang)
+            
+            a = self.translator.translate(args, dest=lang)
             #await ctx.send(a.text)
             embed = discord.Embed(title='Translator', color=0xC01FE4)
             embed.add_field(name=f"Translated: {args} to", value=f'{lang}', inline=False)
@@ -24,8 +24,7 @@ class Translator(commands.Cog):
     @commands.command()
     async def detect(self,ctx,*,message):
         try:
-            translator = Translator()
-            x = translator.detect(message)
+            x = self.translator.detect(message)
             print(x.confidence)
             embed = discord.Embed(title="Langugae Detector", color=0XC01EF4)
             embed.add_field(name='***Langugae:***', value=x.lang, inline=False)
