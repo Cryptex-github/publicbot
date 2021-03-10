@@ -26,8 +26,8 @@ class Translator(commands.Cog):
         try:
             x = self.translator.detect(message)
             print(x.confidence)
-            embed = discord.Embed(title="Langugae Detector", color=0XC01EF4)
-            embed.add_field(name='***Langugae:***', value=x.lang, inline=False)
+            embed = discord.Embed(title="Language Detector", color=0XC01EF4)
+            embed.add_field(name='***Language:***', value=x.lang, inline=False)
             await ctx.send(embed=embed)    
         except:
             await ctx.send("Error 404 Brain not found!")
