@@ -2,6 +2,12 @@ import discord
 
 from discord.ext import commands
 
+# Image Manipulation
+import cv2 as cv
+from urllib.request import Request, urlopen
+import numpy as np
+
+
 class Misc(commands.Cog):
     """Some miscellaneous commands"""
     def __init__(self, bot):
