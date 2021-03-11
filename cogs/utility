@@ -1,0 +1,16 @@
+import discord
+from discord.ext import commands
+import aiohttp
+import asyncio
+import os
+
+class utility(commands.Cog):
+    def __init__(self, bot):
+        self.bot = bot
+    @commands.command()
+    async def spamswebsite(self, ctx):
+        return await ctx.send(" to be continue")
+        
+        
+def setup(bot):
+    bot.add_cog(utility(bot))
