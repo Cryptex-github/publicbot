@@ -55,6 +55,11 @@ class Misc(commands.Cog):
         embed.add_field(name = "Members", value = len(guild.members), inline = True)
         embed.add_field(name = "Roles", value = str(len(guild.roles)), inline = True)
         embed.add_field(name = "Channels", value = (f"Text channels: {len(guild.text_channels)}\nVoice channels: {len(guild.voice_channels)}"), inline = True)
+        embed.add_field(name = "Owner", value = guild.owner.name + "#" + guild.owner.discriminator, inline = True)
+        embed.add_field(name = "Voice region", value = guild.region, inline = True)
+        embed.add_field(name = "Nitro boosts", value = f"{guild.premium_subscription_count} (level {guild.premium_tier})", inline = True)
+        embed.set_thumbnail(url = guild.icon_url if len(guild.icon_url) else ctx.author.default_avatar_url)
+        embed.set_footer(text = f"ID: {guild.id}")
         await ctx.send(embed=embed)
             
     @commands.command()
