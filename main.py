@@ -32,7 +32,7 @@ for filename in os.listdir('./cogs'):
 
 @bot.event
 async def on_ready():
-    print('we are ready to go. logged in as {0.user}'.format(bot))
+    print(f'we are ready to go. logged in as {bot.user}\nWe are in {len(bot.guilds)} guilds')
 
 # If bot is mentioned, it shows the prefix for that guild    
 @bot.event
