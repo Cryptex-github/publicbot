@@ -29,6 +29,18 @@ class Misc(commands.Cog):
             
             await ctx.send(embed = embed)
             
+    @command.command()
+    @commands.guild_only()
+    async def serverinfo(self, ctx):
+        """Shows info about the server"""
+        guild = ctx.guild
+        guild_created_on = guild.created_at.strftime("%d/%m/%Y")
+        embed = discord.Embed(title = guild.name, description = f"Created on {guild_created_on}", colour = discord.Colour.random())
+        embed.add_field(name = "Members", value = len(guild.members), inline = True)
+        embed.add_field(name = "Roles", value = str(len(guild.roles)), inline = True)
+        embed.add_field(name = "Channels", value = (f"Text channels: {len(guild.text_channels)}\nVoice channels: {len(guild.voice_channels)}"), inline = True)
+        await ctx.send(embed=embed)
+            
     @commands.command()
     @commands.guild_only()
     async def avatar(self, ctx, member: discord.Member = None):
