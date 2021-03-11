@@ -12,6 +12,16 @@ class Misc(commands.Cog):
     """Some miscellaneous commands"""
     def __init__(self, bot):
         self.bot = bot
+
+    def url_to_image(self,url, readFlag=cv.IMREAD_COLOR):
+        # download the image, convert it to a NumPy array, and read the numpy array
+        req = Request(url, headers={'User-Agent': 'Mozilla/5.0'})
+        resp = urlopen(req).read()
+        image = np.asarray(bytearray(resp), dtype="uint8")
+        image = cv.imdecode(image, readFlag)
+
+        # return the image
+        return image        
         
     @commands.command()
     @commands.guild_only() # Can't be used in DMs
