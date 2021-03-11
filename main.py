@@ -34,7 +34,7 @@ for filename in os.listdir('./cogs'):
 async def on_ready():
     print('we are ready to go. logged in as {0.user}'.format(bot))
 
-# If bot mentioned it shows the prefix for that guild    
+# If bot is mentioned, it shows the prefix for that guild    
 @bot.event
 async def on_message(message):
     if bot.user.mentioned_in(message):
@@ -52,7 +52,7 @@ async def on_message(message):
     else:                 
         await bot.process_commands(message)       
 
-# Change prefix command could be imporved         
+# Change prefix command could be improved         
 @bot.command()
 @commands.has_permissions(administrator= True)
 async def prefix(ctx,*,prefix=None):
