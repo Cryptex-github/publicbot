@@ -78,5 +78,17 @@ class Misc(commands.Cog):
             await ctx.send("This user might be having their DMs closed, or it's a bot.")
             await ctx.message.add_reaction("\U0000274c")
 
+    @commands.command()
+    async def canny(self,ctx, member: discord.Member = None):
+        if member is None:
+            member = ctx.message.author
+        else:
+            member = member
+        img = self.url_to_image(member.avatar_url)    
+        canny = cv.Canny(img, 125, 175)
+        cv.imwrite("new_image.jpg", canny)
+        file=discord.File('new_image.jpg')
+        await ctx.send(file=file)                
+
 def setup(bot):
     bot.add_cog(Misc(bot))
